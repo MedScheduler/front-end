@@ -1,6 +1,9 @@
 'use client';
 
-import { AppointmentForm } from '@/components/forms/appointment-form/appointment-form';
+import {
+  AppointmentForm,
+  AppointmentFormData,
+} from '@/components/forms/appointment-form/appointment-form';
 import React, { useEffect } from 'react';
 import { useUserInfo } from '@/contexts/user-context';
 import {
@@ -8,10 +11,11 @@ import {
   FeedbackModalProps,
 } from '@/components/modals/success-modal/success-modal';
 import { useRouter } from 'next/navigation';
+import { Availability, Doctor } from '@/types';
 
 export default function CreateAppointmentPage() {
-  const [doctors, setDoctors] = React.useState<any[]>([]);
-  const [availability, setAvailability] = React.useState<{}>({});
+  const [doctors, setDoctors] = React.useState<Doctor[]>([]);
+  const [availability, setAvailability] = React.useState<Availability>({});
   const [selectedDoctor, setSelectedDoctor] = React.useState<string>('');
   const [selectedDate, setSelectedDate] = React.useState<string>('');
   const [modal, setModal] = React.useState<FeedbackModalProps>({});
@@ -26,22 +30,21 @@ export default function CreateAppointmentPage() {
     setDoctors(response);
   };
 
-  const getAvailabilities = async () => {
-    const response = await fetch('/api/availability/' + selectedDoctor).then(
-      (response) => response.json(),
-    );
-    setAvailability(response);
-  };
-
-  const updateDoctor = async ({ doctorId, date }) => {
+  const updateDoctor = async ({
+    doctorId,
+    date,
+  }: {
+    doctorId: string;
+    date: string;
+  }) => {
     setSelectedDoctor(doctorId);
     setSelectedDate(date);
   };
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: AppointmentFormData) => {
     const createAppointment = await fetch('/api/appointments/', {
       method: 'POST',
-      body: JSON.stringify({ ...data, userId: user.id }),
+      body: JSON.stringify({ ...data, userId: user?.id }),
     }).then((response) => response.json());
 
     if (createAppointment.error) {
@@ -62,6 +65,13 @@ export default function CreateAppointmentPage() {
   }, []);
 
   useEffect(() => {
+    const getAvailabilities = async () => {
+      const response = await fetch('/api/availability/' + selectedDoctor).then(
+        (response) => response.json(),
+      );
+      setAvailability(response);
+    };
+
     if (selectedDoctor) {
       getAvailabilities();
     }

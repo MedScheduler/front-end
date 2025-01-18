@@ -1,4 +1,4 @@
-export async function GET(request: Request) {
+export async function GET() {
   const response = await fetch('http://0.0.0.0:8006/user/1').then((res) =>
     res.json(),
   );

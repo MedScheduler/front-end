@@ -1,6 +1,9 @@
 'use client';
 
-import { ReviewForm } from '@/components/forms/review-form/review-form';
+import {
+  ReviewForm,
+  ReviewFormData,
+} from '@/components/forms/review-form/review-form';
 import React from 'react';
 import {
   FeedbackModal,
@@ -12,7 +15,7 @@ export default function ReviewPage() {
   const [modal, setModal] = React.useState<FeedbackModalProps>({});
   const { push } = useRouter();
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: ReviewFormData) => {
     const createAppointment = await fetch('/api/review/', {
       method: 'POST',
       body: JSON.stringify(data),

@@ -5,38 +5,48 @@ import { Button, Label, Textarea } from 'flowbite-react';
 import { useParams } from 'next/navigation';
 import { Appointment } from '@/components/appointment';
 import { RatingInput } from '@/components/rating/rating-input';
+import { Appointment as AppointmentType } from '@/types';
 
-type Props = {
-  onChange?: (formData: any) => void;
-  onSubmit?: (formData: any) => void;
+export type ReviewFormData = {
+  comment: string;
+  rating: number;
+  appointmentId: string;
+  doctorId: string;
+  userId: string;
 };
 
-export const ReviewForm: React.FC<Props> = ({ onChange, onSubmit }) => {
-  const [appointment, setAppointment] = useState({});
+type Props = {
+  onSubmit?: (formData: ReviewFormData) => void;
+};
+
+export const ReviewForm: React.FC<Props> = ({ onSubmit }) => {
+  const [appointment, setAppointment] = useState<AppointmentType>();
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
 
   const { id } = useParams();
 
-  const getAppointment = async () => {
-    const response = await fetch('/api/appointments/' + id).then((response) =>
-      response.json(),
-    );
-    setAppointment(response.data);
-  };
-
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSubmit?.({
-      comment,
-      rating,
-      appointmentId: appointment._id,
-      doctorId: appointment.doctor_id,
-      userId: appointment.user_id,
-    });
+    if (appointment) {
+      onSubmit?.({
+        comment,
+        rating,
+        appointmentId: appointment?._id,
+        doctorId: appointment?.doctor_id,
+        userId: appointment?.user_id,
+      });
+    }
   };
 
   useEffect(() => {
+    const getAppointment = async () => {
+      const response = await fetch('/api/appointments/' + id).then((response) =>
+        response.json(),
+      );
+      setAppointment(response.data);
+    };
+
     getAppointment();
   }, [id]);
 

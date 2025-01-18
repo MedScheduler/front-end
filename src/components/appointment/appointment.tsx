@@ -7,9 +7,9 @@ import { Rating } from '@/components/rating/rating';
 
 type Props = {
   id: string;
-  patient: string;
-  doctor: string;
-  date: Date;
+  patient?: string;
+  doctor?: string;
+  date: string;
   status: string;
   rating?: number;
   showReviewButton?: boolean;
