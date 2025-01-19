@@ -7,6 +7,7 @@ export async function POST(request: Request) {
     patient_id,
     patient_name,
     consultation_date,
+    consultation_id,
     diagnosis,
     observations,
   } = await request.json();
@@ -17,6 +18,7 @@ export async function POST(request: Request) {
     patient_id: String(patient_id),
     patient_name,
     consultation_date,
+    consultation_id,
     diagnosis,
     observations,
   };
@@ -28,8 +30,6 @@ export async function POST(request: Request) {
       'Content-Type': 'application/json',
     },
   }).then((res) => res.json());
-
-  console.log(response);
 
   if (!response.id) {
     return Response.json({ error: 'Ocorreu um erro ao criar o relatório' });
