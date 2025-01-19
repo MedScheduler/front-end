@@ -2,7 +2,11 @@ name: CI/CD for MedScheduler Frontend
 
 on:
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
+  push:
+    branches:
+      - main
 
 jobs:
   build-and-deploy:

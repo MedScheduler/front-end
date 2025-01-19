@@ -16,3 +16,13 @@ export type ApiAvailability = {
   created_at: string;
   updated_at: string;
 };
+
+export type ApiReport = {
+  doctor_id: string;
+  doctor_name: string;
+  patient_id: string;
+  patient_name: string;
+  consultation_date: string;
+  diagnosis: string;
+  observations: string;
+};

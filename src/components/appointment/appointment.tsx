@@ -10,9 +10,10 @@ type Props = {
   patient?: string;
   doctor?: string;
   date: string;
-  status: string;
+  status?: string;
   rating?: number;
   showReviewButton?: boolean;
+  showReportButton?: boolean;
   onApprove?: (id: string) => void;
   onRefuse?: (id: string) => void;
   onFinish?: (id: string) => void;
@@ -29,6 +30,7 @@ export const Appointment: React.FC<Props> = ({
   onRefuse,
   onFinish,
   showReviewButton,
+  showReportButton,
 }) => {
   const formattedDate = new Date(date).toLocaleDateString('pt-br');
   const formattedHours = new Date(date).toLocaleTimeString('pt-br');
@@ -54,6 +56,10 @@ export const Appointment: React.FC<Props> = ({
     push('/review/' + id);
   };
 
+  const pushToReport = () => {
+    push('/report/' + id);
+  };
+
   return (
     <Card className="mb-4">
       <div>
@@ -70,9 +76,11 @@ export const Appointment: React.FC<Props> = ({
         <p>
           <b>Data:</b> {formattedDate} - {formattedHours}
         </p>
-        <p>
-          <b>Status:</b> {status}
-        </p>
+        {status && (
+          <p>
+            <b>Status:</b> {status}
+          </p>
+        )}
         {rating && (
           <div className="flex gap-2 items-center">
             <b>Avaliação:</b> <Rating value={rating} />
@@ -96,11 +104,22 @@ export const Appointment: React.FC<Props> = ({
           </button>
         </div>
       )}
-      {showReviewButton && status === 'Concluida' && (
-        <div className="flex gap-2">
-          <Button type="button" onClick={pushToReviewAppointment}>
-            Avaliar consulta
-          </Button>
+      {status === 'Concluida' && (
+        <div className="flex justify-between">
+          {showReviewButton && !rating && (
+            <div className="flex gap-2">
+              <Button type="button" onClick={pushToReviewAppointment}>
+                Avaliar consulta
+              </Button>
+            </div>
+          )}
+          {showReportButton && (
+            <div className="flex gap-2">
+              <Button type="button" onClick={pushToReport}>
+                Ver relatório
+              </Button>
+            </div>
+          )}
         </div>
       )}
     </Card>

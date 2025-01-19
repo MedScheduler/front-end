@@ -8,6 +8,7 @@ import { Appointment } from '@/components/appointment';
 import { Calendar } from '@/components/calendar';
 import { useUserInfo } from '@/contexts/user-context';
 import { Appointment as AppointmentType } from '@/types';
+import { useRouter } from 'next/navigation';
 
 const AppointmentsUrl = (id: number) => ({
   patient: '/api/appointments/patient/' + id,
@@ -22,6 +23,7 @@ export default function Home() {
   >({});
 
   const { user } = useUserInfo();
+  const { push } = useRouter();
 
   const fetchAppointments = async () => {
     if (user) {
@@ -51,6 +53,7 @@ export default function Home() {
 
   const onFinishAppointment = (id: string) => {
     updateAppointment(id)('Concluida');
+    push('/add-report/' + id);
   };
 
   useEffect(() => {
@@ -126,6 +129,8 @@ export default function Home() {
             patient={appointment.patient?.name}
             status={appointment.status}
             rating={appointment?.review?.rating}
+            showReviewButton={user?.role?.description === 'patient'}
+            showReportButton
             key={'concluded-appointments-' + appointment._id}
           />
         ))}
