@@ -1,8 +1,10 @@
+const APPOINTMENTS_SERVICE_URL = process.env.APPOINTMENTS_SERVICE_URL || "0.0.0.0:8000";
+
 import { ApiAppointment } from '@/app/api/types';
 
 export async function GET() {
   const response: ApiAppointment[] = await fetch(
-    'http://0.0.0.0:8000/api/v1/appointments/',
+    `http://${APPOINTMENTS_SERVICE_URL}/api/v1/appointments/`,
   ).then((res) => res.json());
 
   const appointmentsByDate = response.reduce(
@@ -31,7 +33,7 @@ export async function POST(request: Request) {
         status: 'Aguardando Confirmação',
     };
 
-    const response = await fetch('http://0.0.0.0:8000/api/v1/appointments/', {
+    const response = await fetch(`http://${APPOINTMENTS_SERVICE_URL}/api/v1/appointments/`, {
         method: 'POST',
         body: JSON.stringify(body),
         headers: {

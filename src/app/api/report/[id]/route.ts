@@ -1,3 +1,5 @@
+const REPORT_SERVICE_URL = process.env.REPORT_SERVICE_URL || "0.0.0.0:8005"
+
 import { ApiReport } from '@/app/api/types';
 
 export async function GET(
@@ -7,7 +9,7 @@ export async function GET(
   const { id } = await params;
 
   const response: ApiReport = await fetch(
-    'http://0.0.0.0:8005/api/v1/reports/consultation/' + id,
+    `http://${REPORT_SERVICE_URL}/api/v1/reports/consultation/` + id,
   ).then((res) => res.json());
 
   return Response.json(response);

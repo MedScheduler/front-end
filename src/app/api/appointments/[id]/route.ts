@@ -1,3 +1,5 @@
+const APPOINTMENTS_SERVICE_URL = process.env.APPOINTMENTS_SERVICE_URL || "0.0.0.0:8000";
+
 export async function GET(
   _: Request,
   { params }: { params: Promise<{ id: string }> },
@@ -5,7 +7,7 @@ export async function GET(
   const { id } = await params;
 
   const response = await fetch(
-    'http://0.0.0.0:8000/api/v1/appointments/' + id,
+    `http://${APPOINTMENTS_SERVICE_URL}/api/v1/appointments/` + id,
   ).then((res) => res.json());
 
   return Response.json({ data: response });
@@ -23,7 +25,7 @@ export async function PUT(
   };
 
   const response = await fetch(
-    'http://0.0.0.0:8000/api/v1/appointments/' + id,
+    `http://${APPOINTMENTS_SERVICE_URL}/api/v1/appointments/` + id,
     {
       method: 'PUT',
       body: JSON.stringify(body),

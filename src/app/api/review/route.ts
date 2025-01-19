@@ -1,3 +1,5 @@
+const REVIEW_SERVICE_URL = process.env.REVIEW_SERVICE_URL || "0.0.0.0:8003"
+
 export async function POST(request: Request) {
   const { userId, doctorId, appointmentId, rating, comment } =
     await request.json();
@@ -10,7 +12,7 @@ export async function POST(request: Request) {
     comment,
   };
 
-  const response = await fetch('http://0.0.0.0:8003/api/v1/reviews/', {
+  const response = await fetch(`http://${REVIEW_SERVICE_URL}/api/v1/reviews/`, {
     method: 'POST',
     body: JSON.stringify(body),
     headers: {

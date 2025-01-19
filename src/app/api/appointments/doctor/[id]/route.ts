@@ -1,3 +1,5 @@
+const APPOINTMENTS_SERVICE_URL = process.env.APPOINTMENTS_SERVICE_URL || "0.0.0.0:8000";
+
 import { ApiAppointment } from '@/app/api/types';
 
 export async function GET(
@@ -7,7 +9,7 @@ export async function GET(
   const { id } = await params;
 
   const response: ApiAppointment[] = await fetch(
-    'http://0.0.0.0:8000/api/v1/appointments/doctor/' + id,
+    `http://${APPOINTMENTS_SERVICE_URL}/api/v1/appointments/doctor/` + id,
   ).then((res) => res.json());
 
   const appointmentsByDate = response.reduce(

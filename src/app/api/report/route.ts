@@ -1,3 +1,5 @@
+const REPORT_SERVICE_URL = process.env.REPORT_SERVICE_URL || "0.0.0.0:8005"
+
 export async function POST(request: Request) {
   const {
     doctor_id,
@@ -19,7 +21,7 @@ export async function POST(request: Request) {
     observations,
   };
 
-  const response = await fetch('http://0.0.0.0:8005/api/v1/reports/', {
+  const response = await fetch(`http://${REPORT_SERVICE_URL}/api/v1/reports/`, {
     method: 'POST',
     body: JSON.stringify(body),
     headers: {

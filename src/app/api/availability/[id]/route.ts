@@ -1,3 +1,5 @@
+const AVAILABILITY_SERVICE_URL = process.env.AVAILABILITY_SERVICE_URL || "0.0.0.0:8004"
+
 import { ApiAvailability } from '@/app/api/types';
 
 export async function GET(
@@ -7,7 +9,7 @@ export async function GET(
   const { id } = await params;
 
   const response: ApiAvailability[] = await fetch(
-    'http://0.0.0.0:8004/api/v1/availability/doctor/' + id,
+    `http://${AVAILABILITY_SERVICE_URL}/api/v1/availability/doctor/` + id,
   ).then((res) => res.json());
 
   const result: Record<string, string[]> = {};

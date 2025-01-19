@@ -1,5 +1,7 @@
+const USER_SERVICE_URL = process.env.USER_SERVICE_URL || "0.0.0.0:8006"
+
 export async function GET() {
-  const response = await fetch('http://0.0.0.0:8006/user/1').then((res) =>
+  const response = await fetch(`http://${USER_SERVICE_URL}/user/1`).then((res) =>
     res.json(),
   );
   return Response.json(response.data);
@@ -15,7 +17,7 @@ export async function POST(request: Request) {
     role,
   };
 
-  const response = await fetch('http://0.0.0.0:8006/user', {
+  const response = await fetch(`http://${USER_SERVICE_URL}/user`, {
     method: 'POST',
     body: JSON.stringify(body),
     headers: {
