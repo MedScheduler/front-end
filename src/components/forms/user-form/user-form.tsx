@@ -1,18 +1,24 @@
 import React, { FormEvent, useState } from 'react';
 import { Button, Label, TextInput } from 'flowbite-react';
 
+export type UserFormData = {
+  name: '';
+  email: '';
+  password: '';
+};
+
 type Props = {
-  onSubmit?: (formData: any) => void;
+  onSubmit?: (formData: UserFormData) => void;
 };
 
 export const UserForm: React.FC<Props> = ({ onSubmit }) => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<UserFormData>({
     name: '',
     email: '',
     password: '',
   });
 
-  const updateForm = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const updateForm = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newFormData = { ...formData, [e.target.name]: e.target.value };
     setFormData(newFormData);
   };

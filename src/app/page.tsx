@@ -7,8 +7,9 @@ import { Avatar } from '@/components/avatar';
 import { Appointment } from '@/components/appointment';
 import { Calendar } from '@/components/calendar';
 import { useUserInfo } from '@/contexts/user-context';
+import { Appointment as AppointmentType } from '@/types';
 
-const AppointmentsUrl = (id: string) => ({
+const AppointmentsUrl = (id: number) => ({
   patient: '/api/appointments/patient/' + id,
   doctor: '/api/appointments/doctor/' + id,
   admin: '/api/appointments/',
@@ -16,18 +17,20 @@ const AppointmentsUrl = (id: string) => ({
 
 export default function Home() {
   const [date, setDate] = useState(formatDate(new Date()));
-  const [appointmentsByDate, setAppointmentsByDate] = useState<any[]>([]);
-  const [appointments, setAppointments] = useState<any[]>([]);
+  const [appointmentsByDate, setAppointmentsByDate] = useState<
+    Record<string, AppointmentType[]>
+  >({});
 
   const { user } = useUserInfo();
 
   const fetchAppointments = async () => {
-    const response = await fetch(
-      AppointmentsUrl(user.id)[user.role.description],
-    );
-    const { appointmentsByDate, appointments } = await response.json();
-    setAppointmentsByDate(appointmentsByDate);
-    setAppointments(appointments);
+    if (user) {
+      const response = await fetch(
+        AppointmentsUrl(user.id)[user.role.description],
+      );
+      const { appointmentsByDate } = await response.json();
+      setAppointmentsByDate(appointmentsByDate);
+    }
   };
 
   const updateAppointment = (id: string) => async (status: string) => {
@@ -51,19 +54,21 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (user.id) {
+    if (user?.id) {
       fetchAppointments();
     }
-  }, [user.id]);
+  }, [user?.id]);
 
   return (
     <div className="flex flex-col">
-      <div className="flex items-center justify-between">
-        <Avatar name={user.name} />
-        {user?.role?.description === 'patient' && (
-          <a href="/appointments/create">Agendar consulta</a>
-        )}
-      </div>
+      {user && (
+        <div className="flex items-center justify-between">
+          <Avatar name={user.name} />
+          {user.role.description === 'patient' && (
+            <a href="/appointments/create">Agendar consulta</a>
+          )}
+        </div>
+      )}
 
       <h2 className="pt-4 pb-2 text-lg">Agenda</h2>
       <Calendar

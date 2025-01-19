@@ -1,12 +1,19 @@
 import React, { FormEvent, useState } from 'react';
 import { Button, Label, Select } from 'flowbite-react';
+import { Doctor } from '@/types';
+
+export type AppointmentFormData = {
+  doctorId: string;
+  date: string;
+  time: string;
+};
 
 type Props = {
-  doctors: any[];
-  dates: any[];
-  times: any[];
-  onChange?: (formData: any) => void;
-  onSubmit?: (formData: any) => void;
+  doctors: Doctor[];
+  dates: string[];
+  times: string[];
+  onChange?: (formData: AppointmentFormData) => void;
+  onSubmit?: (formData: AppointmentFormData) => void;
 };
 
 export const AppointmentForm: React.FC<Props> = ({
@@ -16,7 +23,7 @@ export const AppointmentForm: React.FC<Props> = ({
   onChange,
   onSubmit,
 }) => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<AppointmentFormData>({
     doctorId: '',
     date: '',
     time: '',

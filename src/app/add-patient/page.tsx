@@ -1,6 +1,6 @@
 'use client';
 
-import { UserForm } from '@/components/forms/user-form/user-form';
+import { UserForm, UserFormData } from '@/components/forms/user-form/user-form';
 import React from 'react';
 import {
   FeedbackModal,
@@ -12,7 +12,7 @@ export default function AddPatientPage() {
   const [modal, setModal] = React.useState<FeedbackModalProps>({});
   const { push } = useRouter();
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: UserFormData) => {
     const createUser = await fetch('/api/user/', {
       method: 'POST',
       body: JSON.stringify({ ...data, role: 'patient' }),

@@ -38,6 +38,8 @@ export const Avatar: React.FC<Props> = (props) => {
         route: '/add-patient',
       },
     ],
+    patient: [],
+    doctor: [],
   };
 
   return (
@@ -46,11 +48,12 @@ export const Avatar: React.FC<Props> = (props) => {
       dismissOnClick={false}
       renderTrigger={() => <AvatarComponent {...props} />}
     >
-      {dropdownItems[user?.role?.description]?.map(({ label, route }) => (
-        <Dropdown.Item key={label} onClick={() => push(route)}>
-          {label}
-        </Dropdown.Item>
-      ))}
+      {user &&
+        dropdownItems[user.role.description]?.map(({ label, route }) => (
+          <Dropdown.Item key={label} onClick={() => push(route)}>
+            {label}
+          </Dropdown.Item>
+        ))}
       <Dropdown.Item onClick={logout}>Sair</Dropdown.Item>
     </Dropdown>
   );

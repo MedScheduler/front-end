@@ -1,14 +1,16 @@
+import { ApiAvailability } from '@/app/api/types';
+
 export async function GET(
-  request: Request,
+  _: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
 
-  const response = await fetch(
+  const response: ApiAvailability[] = await fetch(
     'http://0.0.0.0:8004/api/v1/availability/doctor/' + id,
   ).then((res) => res.json());
 
-  const result = {};
+  const result: Record<string, string[]> = {};
 
   for (const { available_times } of response) {
     for (const time of available_times) {

@@ -2,7 +2,6 @@
 
 import { Button, Modal, Select } from 'flowbite-react';
 import React, { useEffect, useState } from 'react';
-import { HiCheckCircle, HiXCircle } from 'react-icons/hi';
 import { FeedbackModal } from '@/components/modals/success-modal/success-modal';
 
 type Props = {
